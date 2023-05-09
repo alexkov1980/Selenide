@@ -8,14 +8,16 @@ import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
-
 public class SelenideTest {
+    public String generateDate(long addDays, String pattern) {
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
+    }
     @Test
     void shouldRegisterCard() {
         open("http://localhost:9999");
         $("[data-test-id=city] input").setValue("Москва");
         $("[data-test-id=date] input").doubleClick().sendKeys(Keys.DELETE);
-        String date = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String date = generateDate(3, "dd.MM.yyyy");
         $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=name] input").setValue("Ковалев Алексей");
         $("[data-test-id=phone] input").setValue("+79123456789");
